@@ -133,5 +133,6 @@
         <file>images/TurnManualRight.png</file>
         <file>images/textures/LandscapeNight.png</file>
         <file>images/textures/Lift.png</file>
+        <file>images/fileMenu.png</file>
     </qresource>
 </RCC>

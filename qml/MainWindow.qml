@@ -1,5 +1,5 @@
 import QtQuick 2.8
-import QtQuick.Controls 2.1
+import QtQuick.Controls 2.3
 import AgOpenGPS 1.0
 
 Item {
@@ -22,15 +22,88 @@ Item {
         objectName: "topLine"
         width: parent.width
         height: screenPixelDensity * 0.3 //.3" tall
-        Text {
-            id: text1
-            text: ""
-            color: systemPalette.windowText
-            anchors.horizontalCenter: parent.horizontalCenter
 
-        }
         color: systemPalette.window
         anchors.top: parent.top
+
+        Row {
+            spacing: 15
+
+            IconButton {
+                id: btnFileMenu
+                objectName: "btnFileMenu"
+                height: topLine.height
+
+                icon: "qrc:/images/fileMenu.png"
+
+                onClicked: menu.open()
+
+                Menu {
+                    id: menu
+                    y: btnFileMenu.height
+
+                    Menu {
+                        title: "Language"
+                    }
+
+                    MenuSeparator { }
+
+                    Action {
+                        text: "Directories"
+                    }
+
+                    MenuSeparator { }
+
+                    Action {
+                        text: "Colors"
+                    }
+                    Action {
+                        text: "Section Colors"
+                    }
+
+                    MenuSeparator { }
+
+                    Action {
+                        text: "Top Field View"
+                        checkable: true
+                    }
+
+                    MenuSeparator { }
+
+                    Action {
+                        text: "Enter Sim Coords"
+                    }
+
+                    MenuSeparator { }
+
+                    Action {
+                        text: "Simulator On"
+                        checkable: true
+                        checked: true
+                    }
+
+                    Menu {
+                        title: "Reset All"
+
+                        Action {
+                            text: "Reset All For Sure?"
+                        }
+                    }
+
+                    Action {
+                        text: "HotKeys"
+                    }
+
+                    Action {
+                        text: "About..."
+                    }
+
+                    Action {
+                        text: "Help"
+                    }
+                }
+            }
+        }
     }
 
     Rectangle {
