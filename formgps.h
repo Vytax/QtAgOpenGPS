@@ -76,7 +76,6 @@ public:
     //QQuickView *qmlview;
     QWidget *qmlcontainer;
     AOGRendererInSG *openGLControl;
-    QObject *btnMinMaxZoom;
     QObject *btnPerimeter;
     QObject *btnAutoSteer;
     QObject *btnFlag;

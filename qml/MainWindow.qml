@@ -1,5 +1,6 @@
 import QtQuick 2.8
 import QtQuick.Controls 2.3
+import QtQuick.Layouts 1.1
 import AgOpenGPS 1.0
 
 Item {
@@ -26,8 +27,9 @@ Item {
         color: systemPalette.window
         anchors.top: parent.top
 
-        Row {
+        RowLayout {
             spacing: 15
+            anchors.fill: parent
 
             IconButton {
                 id: btnFileMenu
@@ -102,6 +104,15 @@ Item {
                         text: "Help"
                     }
                 }
+            }
+
+            IconButton{
+                id: btnMinMaxZoom
+                objectName: "btnMinMaxZoom"
+                icon: "qrc:/images/Display.png"
+                height: topLine.height
+                Layout.alignment: Qt.AlignRight
+                onClicked: appCore.onBtnMinMaxZoom_clicked()
             }
         }
     }
@@ -192,13 +203,6 @@ Item {
                     onClicked: {
                         toggle_menu();
                     }
-                }
-
-                IconButton{
-                    id: btnMinMaxZoom
-                    objectName: "btnMinMaxZoom"
-
-                    icon: "qrc:/images/Display.png"
                 }
 
                 IconButtonText {

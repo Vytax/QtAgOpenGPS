@@ -29,6 +29,7 @@ void FormGPS::setupGui()
 
     //Load the QML into a view
     engine()->rootContext()->setContextProperty("screenPixelDensity",QGuiApplication::primaryScreen()->physicalDotsPerInch() * QGuiApplication::primaryScreen()->devicePixelRatio());
+    engine()->rootContext()->setContextProperty("appCore", this);
     setSource(QUrl("qrc:/qml/MainWindow.qml"));
     setColor(Qt::transparent);
 
@@ -54,11 +55,6 @@ void FormGPS::setupGui()
 
     //connect qml button signals to callbacks (it's not automatic with qml)
     btnMenuDrawer = qmlItem(qml_root, "btnMenuDrawer");
-
-    btnMinMaxZoom = qmlItem(qml_root,"btnMinMaxZoom");
-    connect(btnMinMaxZoom,SIGNAL(clicked()),this,
-
-            SLOT(onBtnMinMaxZoom_clicked()));
 
     btnPerimeter = qmlItem(qml_root,"btnPerimeter");
     connect(btnPerimeter,SIGNAL(clicked()),this,
@@ -246,7 +242,8 @@ void FormGPS::onGLControl_clicked(const QVariant &event)
 
 void FormGPS::onBtnMinMaxZoom_clicked(){
     if (closeAllMenus()) return;
-    qDebug()<<"Min Max button clicked." ;
+
+    setWindowState(static_cast<Qt::WindowState>(windowState() ^ Qt::WindowFullScreen));
 }
 
 void FormGPS::onBtnPerimeter_clicked(){
