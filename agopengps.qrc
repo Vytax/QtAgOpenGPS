@@ -134,5 +134,6 @@
         <file>images/textures/LandscapeNight.png</file>
         <file>images/textures/Lift.png</file>
         <file>images/fileMenu.png</file>
+        <file>images/ViewSettings.png</file>
     </qresource>
 </RCC>

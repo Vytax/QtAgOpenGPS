@@ -173,6 +173,18 @@ Item {
                 anchors.leftMargin: 6
                 spacing: 3
 
+                Button {
+                    id: viewSettings
+                    icon.source: "qrc:/images/ViewSettings.png"
+                    icon.height: 64
+                    icon.width: 64
+                    width: 100
+                    height: 100
+                    checkable: true
+                    checked: true;
+                    onToggled: tiltButtons.visible = viewSettings.checked;
+                }
+
                 IconButtonText{
                     id: btnMenuDrawer
                     objectName: "btnMenuDrawer"
