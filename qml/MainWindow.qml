@@ -31,14 +31,14 @@ Item {
             spacing: 15
             anchors.fill: parent
 
-            IconButton {
+            Button {
                 id: btnFileMenu
                 objectName: "btnFileMenu"
-                height: topLine.height
-
-                icon: "qrc:/images/fileMenu.png"
-
+                icon.source: "qrc:/images/fileMenu.png"
+                icon.height: topLine.height * 0.7
+                icon.width: topLine.height * 0.7
                 onClicked: menu.open()
+                Layout.maximumHeight: topLine.height
 
                 Menu {
                     id: menu
@@ -106,13 +106,16 @@ Item {
                 }
             }
 
-            IconButton{
+            Button{
                 id: btnMinMaxZoom
                 objectName: "btnMinMaxZoom"
-                icon: "qrc:/images/Display.png"
-                height: topLine.height
+                icon.source: "qrc:/images/Display.png"
+                icon.height: topLine.height * 0.7
+                icon.width: topLine.height * 0.7
+                Layout.maximumHeight: topLine.height
                 Layout.alignment: Qt.AlignRight
                 onClicked: appCore.onBtnMinMaxZoom_clicked()
+                checkable: true
             }
         }
     }
@@ -149,14 +152,22 @@ Item {
 
         signal clicked(var mouse)
 
+        function closeAllMenus() {
+            viewSettings.checked = false;
+            btnMenuDrawer.checked = false;
+            tiltButtons.visible = false;
+            iconPalette.visible = false;
+        }
+
         MouseArea {
             id: mainMouseArea
             anchors.fill: parent
 
             onClicked: {
                 parent.clicked(mouse);
+                glcontrolrect.closeAllMenus();
             }
-        }
+        }              
 
         Item {
             id: buttonsArea
@@ -173,6 +184,14 @@ Item {
                 anchors.leftMargin: 6
                 spacing: 3
 
+                ButtonGroup {
+                    id: radioGroup
+                    onClicked: {
+                        tiltButtons.visible = button === viewSettings;
+                        iconPalette.visible = button === btnMenuDrawer;
+                    }
+                }
+
                 Button {
                     id: viewSettings
                     icon.source: "qrc:/images/ViewSettings.png"
@@ -182,39 +201,19 @@ Item {
                     height: 100
                     checkable: true
                     checked: true;
-                    onToggled: tiltButtons.visible = viewSettings.checked;
+                    ButtonGroup.group: radioGroup
                 }
 
-                IconButtonText{
+                Button {
                     id: btnMenuDrawer
-                    objectName: "btnMenuDrawer"
-                    buttonText: qsTr("Menu")
-                    icon: "qrc:/images/ArrowRight.png"
-
-                    //pseudo state
-                    property bool hideMenu: true
-
-                    onHideMenuChanged: {
-                        if (hideMenu == true) {
-                            icon="qrc:/images/ArrowRight.png"
-                            iconPalette.visible = false
-                        } else {
-                            icon="qrc:/images/ArrowLeft.png"
-                            iconPalette.visible = true
-                        }
-                    }
-
-                    function toggle_menu() {
-                        if (hideMenu == true) {
-                            hideMenu = false
-                        } else {
-                            hideMenu = true
-                        }
-                    }
-
-                    onClicked: {
-                        toggle_menu();
-                    }
+                    icon.source: "qrc:/images/Settings48.png"
+                    icon.height: 64
+                    icon.width: 64
+                    width: 100
+                    height: 100
+                    checkable: true
+                    checked: false;
+                    ButtonGroup.group: radioGroup
                 }
 
                 IconButtonText {

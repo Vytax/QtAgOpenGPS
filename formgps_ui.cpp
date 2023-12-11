@@ -54,7 +54,6 @@ void FormGPS::setupGui()
 
 
     //connect qml button signals to callbacks (it's not automatic with qml)
-    btnMenuDrawer = qmlItem(qml_root, "btnMenuDrawer");
 
     btnPerimeter = qmlItem(qml_root,"btnPerimeter");
     connect(btnPerimeter,SIGNAL(clicked()),this,
@@ -229,9 +228,6 @@ void FormGPS::onGLControl_clicked(const QVariant &event)
 {
     QObject *m = event.value<QObject *>();
 
-    //cancel click if there are menus to close
-    if (closeAllMenus()) return;
-
     //Pass the click on to the rendering routine.
     //make the bottom left be 0,0
     mouseX = m->property("x").toInt();
@@ -241,13 +237,10 @@ void FormGPS::onGLControl_clicked(const QVariant &event)
 }
 
 void FormGPS::onBtnMinMaxZoom_clicked(){
-    if (closeAllMenus()) return;
-
     setWindowState(static_cast<Qt::WindowState>(windowState() ^ Qt::WindowFullScreen));
 }
 
 void FormGPS::onBtnPerimeter_clicked(){
-    if (closeAllMenus()) return;
     qDebug()<<"Perimeter button clicked." ;
 }
 
@@ -272,11 +265,9 @@ void FormGPS::onBtnAutoSteer_clicked(){
             //No Guidance Lines; turn on contour or set AB line"
         }
     }
-    closeAllMenus();
 }
 
 void FormGPS::onBtnFlag_clicked() {
-    if (closeAllMenus()) return;
 
     //TODO if this button is disabled until field is started, we won't
     //need this check.
@@ -291,12 +282,10 @@ void FormGPS::onBtnFlag_clicked() {
 }
 
 void FormGPS::onBtnABLine_clicked(){
-    if (closeAllMenus()) return;
     qDebug()<<"abline button clicked." ;
 }
 
 void FormGPS::onBtnContour_clicked(){
-    if (closeAllMenus()) return;
     qDebug()<<"contour button clicked." ;
 
     ct.isContourBtnOn = !ct.isContourBtnOn;
@@ -311,7 +300,6 @@ void FormGPS::onBtnContour_clicked(){
 }
 
 void FormGPS::onBtnContourPriority_clicked(){
-    if (closeAllMenus()) return;
     qDebug()<<"contour priority button clicked." ;
 
     ct.isRightPriority = !ct.isRightPriority;
@@ -366,7 +354,6 @@ void FormGPS::onBtnManualOffOn_clicked(){
         assert(1 == 0);
         break;
     }
-    closeAllMenus();
 }
 
 void FormGPS::onBtnSectionOffAutoOn_clicked(){
@@ -415,7 +402,6 @@ void FormGPS::onBtnSectionOffAutoOn_clicked(){
             assert(1 == 0);
 
     }
-    closeAllMenus();
 }
 
 //individual buttons for section (called by actual
@@ -430,7 +416,6 @@ void FormGPS::onBtnSectionMan_clicked(int sectNumber) {
     }
     //Roll over button to next state
     manualBtnUpdate(sectNumber);
-    if (closeAllMenus()) return;
 }
 
 void FormGPS::onBtnTiltDown_clicked(){
@@ -438,7 +423,6 @@ void FormGPS::onBtnTiltDown_clicked(){
 
     double camPitch = SETTINGS_DISPLAY_CAMPITCH;
 
-    if (closeAllMenus()) return;
     qDebug()<<"TiltDown button clicked.";
     camPitch -= (camPitch*0.03-1);
     if (camPitch > 0) camPitch = 0;
@@ -452,7 +436,6 @@ void FormGPS::onBtnTiltUp_clicked(){
 
     double camPitch = SETTINGS_DISPLAY_CAMPITCH;
 
-    if (closeAllMenus()) return;
     qDebug()<<"TiltUp button clicked.";
     camPitch += (camPitch*0.03-1);
     if (camPitch < -80) camPitch = -80;
@@ -462,7 +445,6 @@ void FormGPS::onBtnTiltUp_clicked(){
 }
 
 void FormGPS::onBtnZoomIn_clicked(){
-    if (closeAllMenus()) return;
     qDebug() <<"ZoomIn button clicked.";
     if (zoomValue <= 20) {
         if ((zoomValue -= zoomValue * 0.1) < 6.0) zoomValue = 6.0;
@@ -476,7 +458,6 @@ void FormGPS::onBtnZoomIn_clicked(){
 }
 
 void FormGPS::onBtnZoomOut_clicked(){
-    if (closeAllMenus()) return;
     qDebug() <<"ZoomOut button clicked.";
     if (zoomValue <= 20)
         zoomValue += zoomValue*0.1;
@@ -570,23 +551,6 @@ void FormGPS::onBtnDeleteAllFlags_clicked()
     flagsBufferCurrent = false;
     flagNumberPicked = 0;
     //TODO: FileSaveFlags
-}
-
-bool FormGPS::closeAllMenus()
-{
-    //If any of the popup menus are showing, close them,
-    //and cancel the click.
-    if (!btnMenuDrawer->property("hideMenu").toBool() ||
-        contextArea->property("visible").toBool() ||
-        contextFlag->property("visible").toBool()) {
-
-        btnMenuDrawer->setProperty("hideMenu",true);
-        contextArea->setProperty("visible",false);
-        contextFlag->setProperty("visible",false);
-        openGLControl->update();
-        return true;
-    }
-    return false;
 }
 
 void FormGPS::onBtnManUTurnLeft_clicked()

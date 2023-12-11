@@ -92,7 +92,6 @@ public:
     QObject *btnZoomOut;
 
     //menu button and icon palette -- do we need to keep all of these?
-    QObject *btnMenuDrawer;
     QObject *btnSnap;
     QObject *btnTripOdometer;
     QObject *btnGPSData;
@@ -554,9 +553,6 @@ public:
     void manualAllBtnsUpdate();
     void manualBtnUpdate(int sectNumber);
     void lineUpManualBtns();
-
-    // formgps_ui
-    bool closeAllMenus();
 
 
     /**************************

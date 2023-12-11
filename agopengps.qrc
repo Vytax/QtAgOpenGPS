@@ -135,5 +135,6 @@
         <file>images/textures/Lift.png</file>
         <file>images/fileMenu.png</file>
         <file>images/ViewSettings.png</file>
+        <file>images/Settings48.png</file>
     </qresource>
 </RCC>
